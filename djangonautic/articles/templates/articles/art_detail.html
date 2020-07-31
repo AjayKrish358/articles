@@ -1,0 +1,40 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <h1>Djangonautic</h1>
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+            <li style="list-style-type: none;">
+                <form action="{% url 'accounts:logout' %}" method="POST" class="logout-link">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+            <li style="list-style-type: none;"><a href="{% url 'articles:create' %}" class="highlight">Create New Article</a></li>
+
+            {% else %}
+            <li style="list-style-type: none; display: inline-block;"><a href="{% url 'login' %}">Login</a></li>
+            <li style="list-style-type: none; display: inline-block;"><a href="{% url 'signup' %}">Signup</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="art_detail">
+        <div class="art">
+            <h2> {{article.title}}</h2>
+            <img src="{{article.thumb.url}}" alt="" width="200px" height="200px">
+            <p>{{article.body}}</p>
+            <p>{{article.date}}</p>
+        </div>
+    </div>
+</body>
+
+</html>

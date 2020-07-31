@@ -1,0 +1,47 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <ul>
+            <h1>Djangonautic</h1>
+            {% if user.is_authenticated %}
+            <li style="list-style-type: none;display: inline-block;">
+                <form action="{% url 'accounts:logout' %}" method="POST" class="logout-link">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+            <li style="list-style-type: none; display: inline-block;"><a href="{% url 'articles:create' %}" class="highlight">Create New Article</a></li>
+            {% else %}
+            <li style="list-style-type: none; display: inline-block;"><a href="{% url 'accounts:login' %}">Login</a></li>
+            <li style="list-style-type: none; display: inline-block;"><a href="{% url 'accounts:signup' %}">Signup</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <h2>Hello</h2>
+    <div class="article">
+        <h3>Articles</h3>
+        {% for article in articles %}
+        <h4> <a href="{% url 'articles:article_dis' article.slug %}">{{ article.title }}</a></h4>
+        <img src="{{article.thumb.url}}" alt="" width="200px" height="200px">
+        <p>{{ article.snippet}}</p>
+        <p>{{ article.date }}</p> {% endfor %}
+
+    </div>
+</body>
+
+</html>
